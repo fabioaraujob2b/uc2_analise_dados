@@ -1,0 +1,23 @@
+import pandas as pd 
+
+maria = pd.Series([800,700,1000,900,1200,600,600], index = ['Segunda:', 'Terça:', 'Quarta:', 'Quinta:', 'Sexta:', 'Sábado:', 'Domingo:'])
+joao = pd.Series([900,500,1100,1000,900,500,700], index = ['Segunda:', 'Terça:', 'Quarta:', 'Quinta:', 'Sexta:', 'Sábado:', 'Domingo:'])
+manuel = pd.Series([700,600,900,1200,900,700,400], index = ['Segunda:', 'Terça:', 'Quarta:', 'Quinta:', 'Sexta:', 'Sábado:', 'Domingo:'])
+
+print(f'O total vendido por Maria: {maria.sum():.2f}')
+print(f'\nA média dos valores vendidos por Maria: {maria.mean():.2f}')
+print(f'O maior valor vendido por Maria:{maria.max():.2f}')
+print(f'O menor valor vendido por Maria:{maria.min():.2f}')
+print(f'Vendas da Maria:\n{maria}\n')
+print('***********************************************************\n')
+print(f'O total vendido por Maria: {joao.sum():.2f}')
+print(f'A média dos valores vendidos por João: {joao.mean():.2f}')
+print(f'O maior valor vendido por João: {joao.max():.2f}')
+print(f'O menor valor vendido por João: {joao.min():.2f}')
+print(f'Vendas da João:\n{joao}\n')
+print('***********************************************************\n')
+print(f'O total vendido por Maria: {manuel.sum():.2f}')
+print(f'A média dos valores vendidos por Manuel: {manuel.mean():.2f}')
+print(f'O maior valor vendido por Manuel: {manuel.max():.2f}')
+print(f'O menor valor vendido por Manuel: {manuel.min():.2f}')
+print(f'Vendas da Manuel:\n{maria}\n')
