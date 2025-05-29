@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 
 print('\n---- OBTENDO DADOS ----')
 
@@ -7,8 +8,9 @@ endereco_dados = 'https://www.ispdados.rj.gov.br/Arquivos/BaseDPEvolucaoMensalCi
 
 # Criando o DataFrame ocorrencias
 df_ocorrencias = pd.read_csv(endereco_dados,sep=';',encoding='iso-8859-1')
-df_roubo_veiculo = df_ocorrencias[['cisp','roubo_veiculo']]
-df_roubo_veiculo = df_roubo_veiculo.groupby(['cisp']).sum(['roubo_veiculo'])
+df_roubo_veiculo = df_ocorrencias[['cisp','ano','roubo_veiculo']]
+df_roubo_veiculo = df_roubo_veiculo[df_roubo_veiculo['ano'].between(2003,2024)]
+df_roubo_veiculo = df_roubo_veiculo.groupby(['cisp']).sum(['roubo_veiculo']).reset_index()
 
 # Criando o array dos roubo de veiculo
 array_roubo_veiculo = np.array(df_roubo_veiculo["roubo_veiculo"])
@@ -94,4 +96,39 @@ print('\n- Verificando a existência de outliers superiores -')
 if len(df_roubo_veiculo_outliers_superiores) == 0:
     print("Não existem outliers superiores")
 else:
-    print(df_roubo_veiculo_outliers_superiores.sort_values(by='roubo_veiculo',ascending=False))
+    print(df_roubo_veiculo_outliers_superiores.drop(columns='ano').sort_values(by='roubo_veiculo',ascending=False))
+
+# Visualizando os dados sobre os roubos de veiculo
+print('\n- Visualizando os dados sobre os roubos de veiculo -')
+plt.subplots(2,2,figsize=(16,7))
+plt.suptitle('Análise dos Dados sobre os Roubos de Veículos')
+
+# posição 01: Gráfico dos Roubos de Veículos
+plt.subplot(2,2,1)
+plt.title('Boxplot dos Roubos de Veículos')
+plt.boxplot(array_roubo_veiculo,vert=False,showmeans=True)
+
+# Posição 02: Histograma dos Roubos de Veículos
+plt.subplot(2,2,2)
+plt.title('Histograma dos Roubos de Veículos')
+plt.hist(array_roubo_veiculo,bins=100,edgecolor='black')    
+
+# Posição 03: Gráfico dos Outliers dos Roubos de Veículos
+df_roubo_veiculo_outliers_superiores_order = df_roubo_veiculo_outliers_superiores.sort_values(by='roubo_veiculo',ascending=True)
+plt.subplot(2,2,3)
+plt.title('Gráfico dos Roubos de Veículos')
+plt.barh(df_roubo_veiculo_outliers_superiores_order['cisp'].astype(str),df_roubo_veiculo_outliers_superiores_order['roubo_veiculo'])
+
+# Posição 04: Medidas Descritivas dos Roubos de Veículos
+plt.subplot(2,2,4)
+plt.title('Medidas Descritivas dos Roubos de Veículos')
+plt.axis('off')
+plt.text(0.1,0.9,f'Média dos Roubos de Veículos: {media_roubo_veiculo:.0f}')
+plt.text(0.1,0.8,f'Mediana dos Roubos de Veículos: {mediana_roubo_veiculo:.0f}')
+plt.text(0.1,0.7,f'Distância entre a Média e a Mediana dos Roubos de Veículos: {distancia_roubo_veiculo}')
+plt.text(0.1,0.6,f'Menor Valor dos Roubos de Veículos: {minimo_roubo_veiculo:.0f}')
+plt.text(0.1,0.5,f'Maior Valor dos Roubos de Veículos: {maximo_roubo_veiculo:.0f}')
+plt.text(0.1,0.4,f'O coeficiente de variação dos roubos de veiculo é {coeficiente_var_roubo_veiculo:.2f}')
+plt.text(0.1,0.3,f'A distância da variância dos roubos de veiculos é, {distancia_var_roubo_veiculo:.2f}')
+
+plt.show()
