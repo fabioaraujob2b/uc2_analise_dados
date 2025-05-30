@@ -195,5 +195,5 @@ plt.xlabel('Roubos de Veículos')
 plt.ylabel('Furtos de Veículos')
 
 
-plt.savefig("relatório_roubos_furtos_recuperação_veículos.png")
+plt.savefig("img/09/relatório_roubos_furtos_recuperação_veículos.png")
 plt.show()
